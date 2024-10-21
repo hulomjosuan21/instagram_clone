@@ -1,66 +1,96 @@
 import 'package:flutter/material.dart';
 
-class BasicInstagramClone extends StatelessWidget {
-  BasicInstagramClone({super.key});
+class BasicInstagramClone extends StatefulWidget {
+  @override
+  State<BasicInstagramClone> createState() => _BasicInstagramCloneState();
+}
 
-  final List _stories = [
-    "test 1",
-    "test 2",
-    "test 3",
-    "test 4",
-    "test 5",
-    "test 6"
+class _BasicInstagramCloneState extends State<BasicInstagramClone> {
+  List<String> _stories = ["", ""];
+
+  List<bool> mausabangcolor = [false, false];
+
+  List<String> _posts = [
+    "Tusloka para na remove",
+    "Tusloka para na remove",
+    "Tusloka para na remove",
+    "Tusloka para na remove",
+    "Tusloka para na remove"
   ];
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text("Instagram"),
-        ),
-        body: Column(
-          children: [
-            Container(
-              height: 80,
-              child: ListView.builder(
-                  scrollDirection: Axis.horizontal,
-                  itemCount: _stories.length,
-                  itemBuilder: (context, index) {
-                    return Padding(
-                      padding: const EdgeInsets.all(4),
-                      child: Container(
-                        width: 80,
-                        child: Center(
-                          child: Text(_stories[index]),
-                        ),
-                        decoration: BoxDecoration(
-                            color: Colors.amber, shape: BoxShape.circle),
-                      ),
-                    );
-                  }),
-            ),
-            Expanded(
-                child: GridView.builder(
-                    itemCount: 5,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2),
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          appBar: AppBar(
+            title: Text("Instagram ni"),
+          ),
+          body: Column(
+            children: [
+              Container(
+                height: 80,
+                child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    itemCount: _stories.length,
                     itemBuilder: (context, index) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Container(
-                          width: 50,
-                          height: 50,
-                          decoration: BoxDecoration(
-                              color: Colors.blueAccent,
-                              borderRadius: BorderRadius.circular(10)),
+                      return GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            mausabangcolor[index] = !mausabangcolor[index];
+                          });
+                        },
+                        onDoubleTap: () {
+                          setState(() {
+                            _stories.removeAt(index);
+                          });
+                        },
+                        child: Padding(
+                          padding: const EdgeInsets.all(4),
+                          child: Container(
+                            width: 80,
+                            child: Center(
+                              child: Text(
+                                mausabangcolor[index]
+                                    ? "Oh dba blue"
+                                    : "Tusloka para ma lahi color",
+                                style: TextStyle(fontSize: 10),
+                              ),
+                            ),
+                            decoration: BoxDecoration(
+                                color: mausabangcolor[index]
+                                    ? Colors.blue
+                                    : Colors.amber,
+                                shape: BoxShape.circle),
+                          ),
                         ),
                       );
-                    }))
-          ],
-        ),
-      ),
-    );
+                    }),
+              ),
+              Expanded(
+                  child: ListView.builder(
+                      itemCount: _posts.length,
+                      itemBuilder: (context, index) {
+                        return Padding(
+                          padding: const EdgeInsets.only(top: 2, bottom: 4),
+                          child: GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                _posts.removeAt(index);
+                              });
+                            },
+                            child: Container(
+                              height: 200,
+                              color: Colors.red,
+                              child: Center(
+                                child: Text(_posts[index]),
+                              ),
+                            ),
+                          ),
+                        );
+                      }))
+            ],
+          ),
+        ));
   }
 }
